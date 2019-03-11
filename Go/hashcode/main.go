@@ -8,7 +8,8 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"stringutil"
+
+	"github.com/wachino/hashcode2019/Go/hashcode/stringutil"
 )
 
 type photo struct {
@@ -50,7 +51,6 @@ func main() {
 	fmt.Println("Writing solution")
 	writeSolution(arguments[1], solution)
 	fmt.Println("Done")
-
 }
 
 // Photos manipulation
@@ -71,9 +71,10 @@ func filterPhotos(photos []photo) (hPhotos, vPhotos []photo) {
 
 func hPhotoToSlide(hPhoto photo) (hSlide slide) {
 	return slide{
-		fmt.Sprint(hPhoto.ID),
-		hPhoto.TagsLength,
-		hPhoto.Tags}
+		id:         fmt.Sprint(hPhoto.ID),
+		tagsLength: hPhoto.TagsLength,
+		tags:       hPhoto.Tags,
+	}
 }
 
 func processHPhotos(hPhotos []photo) []slide {
@@ -88,9 +89,10 @@ func vPhotosToSlide(vPhotoA, vPhotoB photo) (hSlide slide) {
 
 	tags := stringutil.Deduplicate(append(vPhotoA.Tags, vPhotoB.Tags...))
 	return slide{
-		fmt.Sprint(vPhotoA.ID, vPhotoB.ID),
-		len(tags),
-		tags}
+		id:         fmt.Sprint(vPhotoA.ID, vPhotoB.ID),
+		tagsLength: len(tags),
+		tags:       tags,
+	}
 }
 
 func vPhotoScore(vPhotoA, vPhotoB photo) int {
